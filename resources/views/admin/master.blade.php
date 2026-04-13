@@ -85,23 +85,62 @@
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
 
                         <a href="{{ route('admin.course.create') }}"> <i class="icon-grid"></i>
-                            Courses
+                            Add Course
 
                         </a>
 
-                        
-                            <a href="{{ route('admin.course.list') }}"> <i class="icon-grid"></i>
-                               View Courses
 
-                            </a>
-                        
+                        <a href="{{ route('admin.course.list') }}"> <i class="icon-grid"></i>
+                            View Courses
+
+                        </a>
+
+
+
+
+                    </ul>
+                </li>
+                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Our Instructors </a>
+                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+
+                        <a href="{{ route('admin.instructor.create') }}"> <i class="icon-grid"></i>
+                            Add Instructor
+
+                        </a>
+
+
+                        <a href="{{ route('admin.instructor.list') }}"> <i class="icon-grid"></i>
+                            View Instructors
+
+                        </a>
+
 
 
 
                     </ul>
                 </li>
 
-                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Lectures </a>
+                <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Blogs </a>
+                    <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+
+                        <a href="{{ route('admin.blog.create') }}"> <i class="icon-grid"></i>
+                            Add Blog
+
+                        </a>
+
+
+                        <a href="{{ route('admin.blog.list') }}"> <i class="icon-grid"></i>
+                            View Blogs
+
+                        </a>
+
+
+
+
+                    </ul>
+                </li>
+
+                <!-- <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Lectures </a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
 
                         <li>
@@ -119,7 +158,7 @@
 
 
                     </ul>
-                </li>
+                </li> -->
 
                 <!-- <li>
                     <a href=""> <i class="icon-grid"></i>
@@ -136,8 +175,8 @@
 
                 </li>
                 <li>
-                    <a href=""> <i class="icon-grid"></i>
-                        Reviews
+                    <a href="/admin/comments"> <i class="icon-grid"></i>
+                        Comments
 
                     </a>
 

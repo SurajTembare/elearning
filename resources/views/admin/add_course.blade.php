@@ -26,6 +26,8 @@
 
 <input type="number" step="0.01" name="price" class="form-control mb-3" placeholder="Price (0 = Free)" required>
 
+
+
 <button class="btn btn-success">Add Course</button>
 
 </form>

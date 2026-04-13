@@ -6,7 +6,7 @@
 
     <!-- Heading -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Latest Courses</h2>
+        <h2 class="fw-bold" style="padding-left:500px;color:Red;font-weight:bolder;">Our Courses</h2>
 
         <!-- View All Button (optional) -->
         <a href="" class="btn btn-outline-primary">

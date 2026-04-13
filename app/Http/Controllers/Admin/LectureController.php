@@ -58,4 +58,48 @@ class LectureController extends Controller
 
         return view('admin.lecture_list', compact('lectures', 'course'));
     }
+
+    public function delete($id){
+
+    $lectures=Lecture::findOrfail($id);
+    $lectures->delete();
+    return redirect()->back()->with('success','Lecture Deleted Successfully');
+    }
+
+    public function edit($id){
+        $lectures=Lecture::findOrfail($id);
+        return view ('admin.updatelecture',compact('lectures'));
+    }
+
+    public function update(Request $request,$id){
+        $request->validate([
+            'title' => 'required',
+            'file' => 'nullable|mimes:pdf|max:10240',
+            'thumbnail' => 'nullable|image|max:2048'
+        ]);
+
+        $lecture = Lecture::findOrFail($id);
+
+        $filePath = $lecture->file_path;
+        $thumbnailPath = $lecture->thumbnail;
+
+        // Upload PDF
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('lectures', 'public');
+        }
+
+        // Upload Thumbnail
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('lecture_thumbnails', 'public');
+        }
+
+        $lecture->update([
+            'title' => $request->title,
+            'file_path' => $filePath,
+            'thumbnail' => $thumbnailPath
+        ]);
+
+        return redirect()->route('admin.lecture.list', $lecture->course_id)
+                         ->with('success', 'Lecture Updated Successfully');
+    }
 }

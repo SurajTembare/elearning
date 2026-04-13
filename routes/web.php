@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\LectureController as AdminLectureController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\InstructorController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CommentController;
 use Illuminate\Foundation\Auth\User;
 
 // Route::get('/', function () {
@@ -19,6 +22,21 @@ Route::get('/about', [UserController::class, 'about'])->name('about');
 Route::get('/courses', [CourseController::class, 'courses'])->name('courses');
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/insertcontact', [ContactController::class, 'insertcontact'])->name('insertcontact');
+
+Route::get('/instructors', [UserController::class, 'instructors'])->name('instructors');
+
+
+Route::get('/blogs', [BlogController::class, 'blogs'])->name('blogs');
+Route::get('/blog/{slug}', [BlogController::class, 'blogDetails'])->name('blog.details');
+Route::post('/comment/store', [BlogController::class, 'storeComment'])->name('comment.store')->middleware('auth', 'verified');
+// Route::post('/admin/reply/store/{id}', [BlogController::class, 'reply'])->name('admin.comment.reply')->middleware('auth', 'admin');
+
+
+//profile
+Route::middleware('auth')->group(function () {
+    Route::get('/student/profile', [UserController::class, 'profile'])
+        ->name('student.profile');
+});
 
 // Home - All Courses
 Route::get('/', [CourseController::class, 'index'])
@@ -31,10 +49,14 @@ Route::get('/course/{id}', [CourseController::class, 'show'])
 Route::get('/course/payment/{id}', [CourseController::class, 'payment'])->name('course.payment');
 
 Route::post('/course/payment/success/{id}', [CourseController::class, 'paymentSuccess'])->name('course.payment.success');
-    
+
 //enroll
-   Route::post('/course/enroll/{course_id}', [EnrollmentController::class, 'enroll'])
+Route::post('/course/enroll/{course_id}', [EnrollmentController::class, 'enroll'])
     ->name('course.enroll')
+    ->middleware('auth', 'verified');
+
+Route::get('/my-courses', [CourseController::class, 'myCourses'])
+    ->name('my.courses')
     ->middleware('auth', 'verified');
 
 
@@ -68,52 +90,11 @@ require __DIR__ . '/auth.php';
 
 Route::get('admin/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'admin']);
 
-// Course List
-// Route::get('/courses', [AdminCourseController::class, 'index'])
-//     ->name('admin.course.list')->middleware(['auth', 'admin']);;
-
-// // Create Course Form
-// Route::get('/courses/create', [AdminCourseController::class, 'create'])
-//     ->name('admin.course.create')->middleware(['auth', 'admin']);;
-
-// // Store Course
-// Route::post('/courses', [AdminCourseController::class, 'store'])
-//     ->name('admin.course.store');
-
-// Route::get('/courses/{id}/lectures/create', [AdminLectureController::class, 'create'])
-//     ->name('admin.lecture.create')->middleware(['auth', 'admin']);;
-
-// // Store Lecture
-
-//   Route::get('/courses/{id}/lectures', [AdminLectureController::class, 'index'])
-//         ->name('admin.lecture.list')->middleware(['auth', 'admin']);;
-
-//     Route::get('/courses/{id}/lecture/create', [AdminLectureController::class, 'create'])
-//         ->name('admin.lecture.create')->middleware(['auth', 'admin']);
-
-//     Route::post('/lectures', [AdminLectureController::class, 'store'])
-//         ->name('admin.lecture.store')->middleware(['auth', 'admin']);
-
-// // Courses
-// Route::get('/courses', [AdminCourseController::class, 'index'])
-//     ->name('admin.course.list')->middleware(['auth', 'admin']);
-
-// Route::get('/courses/create', [AdminCourseController::class, 'create'])
-//     ->name('admin.course.create')->middleware(['auth', 'admin']);
-
-// Route::post('/courses', [AdminCourseController::class, 'store'])
-//     ->name('admin.course.store')->middleware(['auth', 'admin']);
 
 
-// // Lectures
-// Route::get('/courses/{id}/lectures', [AdminLectureController::class, 'index'])
-//     ->name('admin.lecture.list')->middleware(['auth', 'admin']);
 
-// Route::get('/courses/{id}/lectures/create', [AdminLectureController::class, 'create'])
-//     ->name('admin.lecture.create')->middleware(['auth', 'admin']);
 
-// Route::post('/lectures', [AdminLectureController::class, 'store'])
-//     ->name('admin.lecture.store')->middleware(['auth', 'admin']); 
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -126,15 +107,59 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Lecture list (course wise)
     Route::get('/lecture/list/{course_id}', [AdminLectureController::class, 'list'])->name('lecture.list')->middleware(['auth', 'admin']);
 
+    //lecture delete
+    Route::get('/lecture/delete/{id}', [AdminLectureController::class, 'delete'])->name('lecture.delete')->middleware(['auth', 'admin']);
+    //lecture edit
+    Route::get('/lecture/edit/{id}', [AdminLectureController::class, 'edit'])->name('lecture.edit')->middleware(['auth', 'admin']);
+    Route::post('/lecture/update/{id}', [AdminLectureController::class, 'update'])->name('lecture.update')->middleware(['auth', 'admin']);
     //add courses
-      Route::get('/courses', [AdminCourseController::class, 'index'])->name('course.list')->middleware(['auth', 'admin']);
+    Route::get('/courses', [AdminCourseController::class, 'index'])->name('course.list')->middleware(['auth', 'admin']);
 
     Route::get('/courses/create', [AdminCourseController::class, 'create'])->name('course.create')->middleware(['auth', 'admin']);
 
     Route::post('/courses/store', [AdminCourseController::class, 'store'])->name('course.store')->middleware(['auth', 'admin']);
 
+    Route::get('/course/delete/{id}', [AdminCourseController::class, 'delete'])->name('course.delete')->middleware(['auth', 'admin']);
+
+    Route::get('/course/edit/{id}', [AdminCourseController::class, 'edit'])->name('course.edit')->middleware(['auth', 'admin']);
+
+    Route::post('/course/update/{id}', [AdminCourseController::class, 'update'])->name('course.update')->middleware(['auth', 'admin']);
+
     //contact
     Route::get('/contactlist', [ContactController::class, 'contactlist'])->name('contactlist')->middleware(['auth', 'admin']);
+
+    //instructor
+    Route::get('/instructors', [InstructorController::class, 'index'])->name('instructor.list')->middleware(['auth', 'admin']);
+    Route::get('/instructor/create', [InstructorController::class, 'create'])->name('instructor.create')->middleware(['auth', 'admin']);
+    Route::post('/instructor/store', [InstructorController::class, 'store'])->name('instructor.store')->middleware(['auth', 'admin']);
+
+    Route::get('/instructor/edit/{id}', [InstructorController::class, 'edit'])->name('instructor.edit')->middleware(['auth', 'admin']);
+    Route::post('/instructor/update/{id}', [InstructorController::class, 'update'])->name('instructor.update')->middleware(['auth', 'admin']);
+
+    Route::get('/instructor/delete/{id}', [InstructorController::class, 'delete'])->name('instructor.delete')->middleware(['auth', 'admin']);
+
+    //blog
+    Route::get('/blogs', [BlogController::class, 'index'])->name('blog.list')->middleware(['auth', 'admin']);
+    Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create')->middleware(['auth', 'admin']);
+    Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store')->middleware(['auth', 'admin']);
+
+    Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit')->middleware(['auth', 'admin']);
+    Route::post('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update')->middleware(['auth', 'admin']);
+
+    Route::get('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete')->middleware(['auth', 'admin']);
+
+    //comment
+    Route::get('/comments', [CommentController::class, 'index'])->name('comment.list')->middleware(['auth', 'admin']);
+
+    Route::post('/comment/reply/{id}', [CommentController::class, 'reply'])
+        ->name('comment.reply')->middleware(['auth', 'admin']);
+
+    Route::delete('/comment/{id}', [CommentController::class, 'delete'])
+        ->name('comment.delete')->middleware(['auth', 'admin']);
+
+        Route::post('/comment/approve/{id}', [CommentController::class, 'approve'])
+    ->name('comment.approve')->middleware(['auth', 'admin']);
+   
 });
 // Route::get('add_category', [AdminController::class, 'add_category'])->middleware(['auth', 'admin']);
 // Route::post('post_category', [AdminController::class, 'post_category'])->middleware(['auth', 'admin']);

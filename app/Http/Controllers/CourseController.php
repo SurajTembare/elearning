@@ -43,4 +43,13 @@ public function paymentSuccess($id)
     return redirect()->route('course.details', $id)
         ->with('success', 'Payment Successful & Enrolled!');
 }
+
+public function myCourses()
+{
+    $enrollments = Enrollment::with('course')
+                    ->where('user_id', auth()->id())
+                    ->get();
+
+    return view('my_courses', compact('enrollments'));
+}
 }

@@ -20,4 +20,8 @@ class Enrollment extends Model
     // {
     //     return $this->belongsTo(Course::class);
     // }
+    public function course()
+{
+    return $this->belongsTo(\App\Models\Course::class);
+}
 }

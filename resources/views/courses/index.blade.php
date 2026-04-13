@@ -291,7 +291,7 @@
 </section>
 <!-- end subscribe section -->
 <!-- client section -->
-<section class="client_section layout_padding">
+<!-- <section class="client_section layout_padding">
    <div class="container">
       <div class="heading_container heading_center">
          <h2>
@@ -379,7 +379,7 @@
          </div>
       </div>
    </div>
-</section>
+</section> -->
 <!-- end client section -->
 <!-- footer start -->
 @endsection

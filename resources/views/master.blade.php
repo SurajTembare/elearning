@@ -12,7 +12,7 @@
    <meta name="description" content="" />
    <meta name="author" content="" />
    <link rel="shortcut icon" href="{{asset('front_end/images/favicon.png')}}" type="">
-   <title>Famms - Fashion HTML Template</title>
+   <title>E-Learning</title>
    <!-- bootstrap core css -->
    <link rel="stylesheet" type="text/css" href="{{asset('front_end/css/bootstrap.css')}}" />
    <!-- font awesome style -->
@@ -44,14 +44,14 @@
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pages <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                            <li><a href="/about">About</a></li>
-                           <li><a href="/testimonial">Testimonial</a></li>
+                           <li><a href="{{ route('instructors') }}">Our Instructors</a></li>
                         </ul>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="/courses">Courses</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="/blog">Blog</a>
+                        <a class="nav-link" href="{{ route('blogs') }}">Blog</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="/contact">Contact</a>
@@ -63,8 +63,12 @@
                         <div style="display: flex; align-items: center; gap: 20px;">
 
                            <!-- Left Side Links -->
-                           <a href="{{url('myorders')}}" style="text-decoration:none;">
-                              My Orders
+                           <!-- <a href="{{ route('my.courses') }}" style="text-decoration:none;">
+                              My Courses
+                           </a> -->
+
+                           <a href="{{ route('student.profile') }}" style="text-decoration:none;">
+                              My Profile
                            </a>
 
                            <a href="{{url('mycart')}}" style="text-decoration:none;">

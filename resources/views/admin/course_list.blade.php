@@ -20,8 +20,10 @@
             <th>#</th>
             <!-- <th>Thumbnail</th> -->
             <th>Title</th>
+            <th>Description</th>
             <th>Price</th>
             <th>Type</th>
+            <th>ADD</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -40,6 +42,7 @@
             </td> -->
 
             <td>{{ $course->title }}</td>
+            <td>{{ $course->description }}</td>
 
             <td>₹{{ $course->price }}</td>
 
@@ -58,6 +61,15 @@
 
                 <a href="{{ route('admin.lecture.list', $course->id) }}" class="btn btn-info btn-sm">
                     View Lectures
+                </a>
+            </td>
+            <td>
+                 <a href="{{ route('admin.course.edit', $course->id) }}" class="btn btn-primary btn-sm">
+                    Edit
+                </a>
+
+                 <a href="{{ route('admin.course.delete', $course->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this course?')">
+                    Delete
                 </a>
             </td>
         </tr>

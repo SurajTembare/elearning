@@ -21,6 +21,7 @@
             <th>Title</th>
             <th>PDF</th>
             <th>Thumbnail</th>
+            <th>Actions</th>
         </tr>
     </thead>
 
@@ -44,6 +45,14 @@
                 @else
                     No Thumbnail
                 @endif
+            </td>
+            <td>
+                <a href="{{ route('admin.lecture.edit', $lecture->id) }}" class="btn btn-warning btn-sm">
+                    Edit
+                </a>
+                <a href="{{ route('admin.lecture.delete', $lecture->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                    Delete
+                </a>
             </td>
         </tr>
         @endforeach
