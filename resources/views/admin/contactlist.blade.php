@@ -42,7 +42,7 @@
                                     <!-- <td>{{ $contact->message }}</td> -->
                                     <td>
                                         <span title="{{ $contact->message }}">
-                                            {{ Str::limit($contact->message, 40) }}
+                                            {{ Str::limit($contact->message, 100) }}
                                         </span>
                                     </td>
                                 </tr>

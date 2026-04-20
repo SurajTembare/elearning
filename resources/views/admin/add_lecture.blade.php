@@ -28,11 +28,16 @@
 
 <input type="text" name="title" class="form-control mb-3" placeholder="Lecture Title" required>
 
-<label>Upload PDF Notes</label>
-<input type="file" name="file" class="form-control mb-3" accept=".pdf">
+<!-- TYPE -->
+<select name="type" class="form-control mb-3" required>
+    <option value="">Select Type</option>
+    <option value="pdf">PDF Notes</option>
+    <option value="video">Video Lecture</option>
+</select>
 
-<label>Thumbnail</label>
-<input type="file" name="thumbnail" class="form-control mb-3">
+<!-- FILE -->
+<label>Upload File</label>
+<input type="file" name="file" class="form-control mb-3" required>
 
 <button class="btn btn-success">Save Lecture</button>
 

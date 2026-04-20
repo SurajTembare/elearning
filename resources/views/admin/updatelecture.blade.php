@@ -29,8 +29,14 @@
 <input type="text" name="title" class="form-control mb-3"
        value="{{ $lectures->title }}" required>
 
-<!-- CURRENT PDF -->
-@if($lectures->file_path)
+<!-- TYPE -->
+<select name="type" class="form-control mb-3" required>
+    <option value="pdf" {{ $lectures->type == 'pdf' ? 'selected' : '' }}>PDF</option>
+    <option value="video" {{ $lectures->type == 'video' ? 'selected' : '' }}>Video</option>
+</select>
+
+<!-- CURRENT FILE -->
+@if($lectures->type == 'pdf' && $lectures->file_path)
     <div class="mb-3">
         <label>Current PDF</label><br>
         <a href="{{ asset('storage/'.$lectures->file_path) }}" target="_blank">
@@ -39,8 +45,18 @@
     </div>
 @endif
 
-<label>Change PDF</label>
-<input type="file" name="file" class="form-control mb-3" accept=".pdf">
+@if($lectures->type == 'video' && $lectures->video_file)
+    <div class="mb-3">
+        <label>Current Video</label><br>
+        <a href="{{ asset('storage/'.$lectures->video_file) }}" target="_blank">
+            View Video
+        </a>
+    </div>
+@endif
+
+<!-- CHANGE FILE -->
+<label>Change File</label>
+<input type="file" name="file" class="form-control mb-3">
 
 <!-- CURRENT THUMBNAIL -->
 @if($lectures->thumbnail)

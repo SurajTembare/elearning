@@ -20,7 +20,8 @@
             <th>#</th>
             <th>Title</th>
             <th>PDF</th>
-            <th>Thumbnail</th>
+            <th>Video</th>
+            <!-- <th>Thumbnail</th> -->
             <th>Actions</th>
         </tr>
     </thead>
@@ -40,12 +41,21 @@
                 @endif
             </td>
             <td>
+                    @if($lecture->video_file)
+                        <a href="{{ asset('storage/'.$lecture->video_file) }}" target="_blank" class="btn btn-info btn-sm">
+                            View Video
+                        </a>
+                    @else
+                        No Video
+                    @endif
+            </td>
+            <!-- <td>
                 @if($lecture->thumbnail)
                     <img src="{{ asset('storage/'.$lecture->thumbnail) }}" alt="Thumbnail" class="img-thumbnail" style="max-width: 100px;">
                 @else
                     No Thumbnail
                 @endif
-            </td>
+            </td> -->
             <td>
                 <a href="{{ route('admin.lecture.edit', $lecture->id) }}" class="btn btn-warning btn-sm">
                     Edit

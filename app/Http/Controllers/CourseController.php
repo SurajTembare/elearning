@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Mail\EnrollmentMail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-     public function index()
+    public function index()
     {
         $courses = Course::latest()->get()->take(3);
         return view('courses.index', compact('courses'));
@@ -20,36 +24,53 @@ class CourseController extends Controller
         return view('courses.show', compact('course'));
     }
 
-    public function courses(){
-        $courses=Course::all();
-        return view('courses.courses',compact('courses'));
+    public function courses()
+    {
+        $courses = Course::all();
+        return view('courses.courses', compact('courses'));
     }
 
     public function payment($id)
-{
-    $course = Course::findOrFail($id);
-    return view('courses.payment', compact('course'));
-}
+    {
+        $course = Course::findOrFail($id);
+        return view('courses.payment', compact('course'));
+    }
 
-public function paymentSuccess($id)
-{
-    // 👉 Here later Razorpay/Stripe verification will come
+    // public function paymentSuccess($id)
+    // {
+    //     // 👉 Here later Razorpay/Stripe verification will come
 
-    Enrollment::firstOrCreate([
-        'user_id' => auth()->id(),
-        'course_id' => $id
-    ]);
+    //     Enrollment::firstOrCreate([
+    //         'user_id' => auth()->id(),
+    //         'course_id' => $id
+    //     ]);
 
-    return redirect()->route('course.details', $id)
-        ->with('success', 'Payment Successful & Enrolled!');
-}
+    //     return redirect()->route('course.details', $id)
+    //         ->with('success', 'Payment Successful & Enrolled!');
+    // }
+    public function paymentSuccess($id)
+    {
+        $user = auth()->user();
+        $course = Course::findOrFail($id);
 
-public function myCourses()
-{
-    $enrollments = Enrollment::with('course')
-                    ->where('user_id', auth()->id())
-                    ->get();
+        // SAVE ENROLLMENT
+        Enrollment::firstOrCreate([
+            'user_id' => $user->id,
+            'course_id' => $id
+        ]);
 
-    return view('my_courses', compact('enrollments'));
-}
+        // SEND EMAIL
+        Mail::to($user->email)->send(new EnrollmentMail($user, $course));
+
+        return redirect()->route('course.details', $id)
+            ->with('success', 'Payment successful & enrolled!');
+    }
+    public function myCourses()
+    {
+        $enrollments = Enrollment::with('course')
+            ->where('user_id', auth()->id())
+            ->get();
+
+        return view('my_courses', compact('enrollments'));
+    }
 }

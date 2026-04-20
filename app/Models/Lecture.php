@@ -9,7 +9,9 @@ class Lecture extends Model
    protected $fillable = [
     'course_id',
     'title',
-    'file_path'
+    'type',
+    'file_path',
+    'video_file'
 ];
 //   public function course()
 //     {

@@ -71,7 +71,7 @@
                               My Profile
                            </a>
 
-                           <a href="{{url('mycart')}}" style="text-decoration:none;">
+                           <!-- <a href="{{url('mycart')}}" style="text-decoration:none;">
                               <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                               
                            </a>
@@ -79,7 +79,7 @@
                            <a href="{{url('wishlist')}}" style="text-decoration:none;">
                               <i class="fa fa-heart" aria-hidden="true"></i>
                               
-                           </a>
+                           </a> -->
 
                            <!-- Push Logout to Right -->
                            <div style="margin-left: auto;">
@@ -213,7 +213,7 @@
                                     <li><a href="/about">About</a></li>
                                     <li><a href="/services">Services</a></li>
                                     <li><a href="/testimonial">Testimonial</a></li>
-                                    <li><a href="/blog">Blog</a></li>
+                                    <li><a href="/blogs">Blog</a></li>
                                     <li><a href="/contact">Contact</a></li>
                                  </ul>
                               </div>

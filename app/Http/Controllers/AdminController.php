@@ -15,6 +15,9 @@ class AdminController extends Controller
         $totalUsers = User::where('user_type', 'user')->count();
         $totalCourses = Course::count();
         $totalEnrollments = Enrollment::count();
-        return view('admin.index', compact('totalUsers', 'totalCourses', 'totalEnrollments'));
+        $totalRevenue = Enrollment::with('course')->get()->sum(function ($enrollment) {
+            return $enrollment->course ? $enrollment->course->price : 0;
+        });
+        return view('admin.index', compact('totalUsers', 'totalCourses', 'totalEnrollments', 'totalRevenue'));
     }
 }

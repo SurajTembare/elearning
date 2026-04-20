@@ -182,11 +182,13 @@
                      #NewArrivals
                   </h2>
                </div>
-               <p style="margin-top: 20px;margin-bottom: 30px;">
-                  Vitae fugiat laboriosam officia perferendis provident aliquid voluptatibus dolorem, fugit ullam sit earum id eaque nisi hic? Tenetur commodi, nisi rem vel, ea eaque ab ipsa, autem similique ex unde!
+                <p style="margin-top: 20px;margin-bottom: 30px;">
+                  Upgrade your skills with our latest courses designed by industry experts. 
+                  Learn Web Development, Programming, and more with structured lessons, 
+                  practical examples, and real-world projects.
                </p>
-               <a href="">
-                  Shop Now
+               <a href="/courses" class="btn btn-primary">
+                  Explore Courses
                </a>
             </div>
          </div>
@@ -258,7 +260,7 @@
       </div>
 
       <div class="btn-box">
-         <a href="">
+         <a href="/courses">
             View All Courses
          </a>
       </div>
