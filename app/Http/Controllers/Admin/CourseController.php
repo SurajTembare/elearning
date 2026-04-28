@@ -43,7 +43,11 @@ class CourseController extends Controller
             'description' => $request->description,
             'thumbnail' => $thumbnailPath,
             'price' => $request->price,
-            'is_paid' => $request->price > 0 ? 1 : 0
+            'is_paid' => $request->price > 0 ? 1 : 0,
+            'offer_name' => $request->offer_name,
+            'discount_percent' => $request->discount_percent,
+            'discount_start' => $request->discount_start,
+            'discount_end' => $request->discount_end,
         ]);
 
         return redirect()->route('admin.course.list')->with('success', 'Course Added Successfully');
@@ -62,38 +66,40 @@ class CourseController extends Controller
     public function edit($id)
     {
         $course = Course::findOrFail($id);
-        return view('admin.updatecourse', compact('course'));    
+        return view('admin.updatecourse', compact('course'));
     }
 
     // Update Course
-   public function update(Request $request, $id)
-{
-    $course = Course::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $course = Course::findOrFail($id);
 
-    $request->validate([
-        'title' => 'required',
-        'description' => 'required',
-        'price' => 'required|numeric',
-        'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-    ]);
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
 
-    $thumbnailPath = $course->thumbnail;
+        $thumbnailPath = $course->thumbnail;
 
-    // upload new image
-    if ($request->hasFile('thumbnail')) {
-        $thumbnailPath = $request->file('thumbnail')->store('courses', 'public');
+        // upload new image
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('courses', 'public');
+        }
+
+        $course->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'thumbnail' => $thumbnailPath,
+            'price' => $request->price,
+            'is_paid' => $request->price > 0 ? 1 : 0,
+            'offer_name' => $request->offer_name,
+            'discount_percent' => $request->discount_percent,
+            'discount_start' => $request->discount_start,
+            'discount_end' => $request->discount_end,
+        ]);
+
+        return redirect()->route('admin.course.list')->with('success', 'Course Updated Successfully');
     }
-
-    $course->update([
-        'title' => $request->title,
-        'description' => $request->description,
-        'thumbnail' => $thumbnailPath,
-        'price' => $request->price,
-        'is_paid' => $request->price > 0 ? 1 : 0
-    ]);
-
-    return redirect()->route('admin.course.list')->with('success','Course Updated Successfully');
-}
-
-
 }

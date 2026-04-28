@@ -34,10 +34,10 @@
                             <strong>{{ $enrollments->count() }}</strong><br>
                             <small class="text-muted">Courses</small>
                         </div>
-                        <div>
+                        <!-- <div>
                             <strong>0%</strong><br>
                             <small class="text-muted">Progress</small>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

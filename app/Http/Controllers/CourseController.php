@@ -33,26 +33,24 @@ class CourseController extends Controller
     public function payment($id)
     {
         $course = Course::findOrFail($id);
+
+        // ✅ calculate amount
+        $amount = $course->is_discount_active
+            ? $course->final_price
+            : $course->price;
         return view('courses.payment', compact('course'));
     }
 
-    // public function paymentSuccess($id)
-    // {
-    //     // 👉 Here later Razorpay/Stripe verification will come
 
-    //     Enrollment::firstOrCreate([
-    //         'user_id' => auth()->id(),
-    //         'course_id' => $id
-    //     ]);
-
-    //     return redirect()->route('course.details', $id)
-    //         ->with('success', 'Payment Successful & Enrolled!');
-    // }
     public function paymentSuccess($id)
     {
         $user = auth()->user();
         $course = Course::findOrFail($id);
 
+          // ✅ calculate amount
+        $amount = $course->is_discount_active
+            ? $course->final_price
+            : $course->price;
         // SAVE ENROLLMENT
         Enrollment::firstOrCreate([
             'user_id' => $user->id,
@@ -73,4 +71,18 @@ class CourseController extends Controller
 
         return view('my_courses', compact('enrollments'));
     }
+
+
+    // public function paymentSuccess($id)
+    // {
+    //     // 👉 Here later Razorpay/Stripe verification will come
+
+    //     Enrollment::firstOrCreate([
+    //         'user_id' => auth()->id(),
+    //         'course_id' => $id
+    //     ]);
+
+    //     return redirect()->route('course.details', $id)
+    //         ->with('success', 'Payment Successful & Enrolled!');
+    // }
 }
