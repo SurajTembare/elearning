@@ -16,8 +16,8 @@
         <!-- HEADER -->
         <tr>
             <td style="background:#4e73df; color:white; padding:20px; text-align:center;">
-                <h2 style="margin:0;">🎓 My LMS Platform</h2>
-                <p style="margin:5px 0 0;">Course Enrollment Confirmation</p>
+                <h2 style="margin:0;">🎓 My LMS</h2>
+                <p style="margin:5px 0 0; font-size:13px;">Learn. Grow. Succeed.</p>
             </td>
         </tr>
 
@@ -42,14 +42,43 @@
                         {{ \Illuminate\Support\Str::limit($course->description, 100) }}
                     </p>
 
-                    <p style="margin:0;">
-                        <strong>Price:</strong>
-                        @if($course->price > 0)
+                    <!-- PRICE -->
+                    <p style="margin:5px 0;">
+                        <strong>Amount Paid:</strong><br>
+
+                        @if($course->is_discount_active)
+                            <span style="text-decoration:line-through; color:#999;">
+                                ₹{{ $course->price }}
+                            </span>
+                            <span style="color:green; font-weight:bold;">
+                                ₹{{ $course->final_price }}
+                            </span>
+                            <small style="color:red;">
+                                ({{ $course->discount_percent }}% OFF)
+                            </small>
+                        @elseif($course->price > 0)
                             ₹{{ $course->price }}
                         @else
                             Free Course
                         @endif
                     </p>
+
+                    <!-- ENROLL DATE -->
+                    <p style="margin-top:8px;">
+                        <strong>Enrolled On:</strong> {{ now()->format('d M Y') }}
+                    </p>
+
+                    <!-- LECTURES -->
+                    <p style="margin-top:5px;">
+                        <strong>Total Lectures:</strong> {{ $course->lectures->count() ?? 'N/A' }}
+                    </p>
+
+                    <!-- OFFER INFO -->
+                    @if($course->is_discount_active)
+                        <p style="color:#e74c3c; font-size:14px;">
+                            🎉 You enrolled with a {{ $course->discount_percent }}% discount!
+                        </p>
+                    @endif
 
                 </div>
 
@@ -57,14 +86,27 @@
                     You can now start learning anytime from your dashboard.
                 </p>
 
-                <!-- BUTTON -->
+                <!-- BUTTONS -->
                 <div style="text-align:center; margin:30px 0;">
+
+                    <a href="{{ route('course.details',$course->id) }}"
+                       style="background:#28a745; color:white; padding:12px 25px;
+                              text-decoration:none; border-radius:5px; display:inline-block; margin-right:10px;">
+                        ▶ Start Course
+                    </a>
+
                     <a href="{{ url('/student/profile') }}"
                        style="background:#4e73df; color:white; padding:12px 25px;
                               text-decoration:none; border-radius:5px; display:inline-block;">
-                        🚀 Go to My Courses
+                        🚀 My Courses
                     </a>
+
                 </div>
+
+                <!-- SUPPORT -->
+                <p style="margin-top:20px; font-size:14px; color:#777;">
+                    If you face any issues, feel free to contact our support team.
+                </p>
 
                 <p style="color:#555;">
                     Happy Learning! <br>

@@ -18,7 +18,7 @@ class CourseController extends Controller
         return view('courses.index', compact('courses'));
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $course = Course::with('lectures')->findOrFail($id);
         return view('courses.show', compact('course'));
@@ -30,7 +30,7 @@ class CourseController extends Controller
         return view('courses.courses', compact('courses'));
     }
 
-    public function payment($id)
+    public function payment(int $id)
     {
         $course = Course::findOrFail($id);
 
@@ -42,7 +42,7 @@ class CourseController extends Controller
     }
 
 
-    public function paymentSuccess($id)
+    public function paymentSuccess(int $id)
     {
         $user = auth()->user();
         $course = Course::findOrFail($id);

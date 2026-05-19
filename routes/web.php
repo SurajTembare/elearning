@@ -28,7 +28,7 @@ Route::get('/instructors', [UserController::class, 'instructors'])->name('instru
 
 Route::get('/blogs', [BlogController::class, 'blogs'])->name('blogs');
 Route::get('/blog/{slug}', [BlogController::class, 'blogDetails'])->name('blog.details');
-Route::post('/comment/store', [BlogController::class, 'storeComment'])->name('comment.store')->middleware('auth', 'verified');
+Route::post('/comment/store', [BlogController::class, 'storeComment'])->name('comment.store');
 // Route::post('/admin/reply/store/{id}', [BlogController::class, 'reply'])->name('admin.comment.reply')->middleware('auth', 'admin');
 
 
@@ -53,11 +53,11 @@ Route::post('/course/payment/success/{id}', [CourseController::class, 'paymentSu
 //enroll
 Route::post('/course/enroll/{course_id}', [EnrollmentController::class, 'enroll'])
     ->name('course.enroll')
-    ->middleware('auth', 'verified');
+    ->middleware('auth');
 
 Route::get('/my-courses', [CourseController::class, 'myCourses'])
     ->name('my.courses')
-    ->middleware('auth', 'verified');
+    ->middleware('auth');
 
 
 //STUDENT ROUTES AUTH REQUIRED
